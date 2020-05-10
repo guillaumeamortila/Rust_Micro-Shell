@@ -88,7 +88,8 @@ pub Struct Processus {
 	statut: enum,
 	child: Vec<Processus>,
 	parent: Vec<Processus>
-}```
+}
+```
 
 
 
