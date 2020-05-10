@@ -25,7 +25,7 @@ fn main() -> std::io::Result<()> {
 
         // Peekable because we have to be able to check if next() element exists
         let mut commands = user_input.split("|").map(|x| x.trim()).peekable();
-        let mut user_input = String::with_capacity(0);
+        // user_input = String::with_capacity(0);
         let mut previous_command: Option<Child> = None;
 
 
@@ -42,10 +42,6 @@ fn main() -> std::io::Result<()> {
 
                 "exit" => break 'shell_loop,
 
-                "ex8" => {
-                    ex_8_pipe();
-                },
-
                 "cd" => {
                     let new_dir = args.peekable().peek().map_or("/", |x| *x);
                     let path = Path::new(new_dir);
@@ -58,7 +54,7 @@ fn main() -> std::io::Result<()> {
 
                     let stdin = previous_command.map_or(
                         Stdio::inherit(),
-                        |output: Child| Stdio::from(output.stdout.unwrap())
+                        |output: Child| Stdio::from(output.stdout.expect("Previous command output error"))
                     );
 
                     let stdout = if commands.peek().is_some() { // another pipe after this command
@@ -67,7 +63,7 @@ fn main() -> std::io::Result<()> {
                         Stdio::inherit()
                     };
 
-                    let mut process = Command::new(cmd)
+                    let process = Command::new(cmd)
                         .args(args)
                         .stdin(stdin)
                         .stdout(stdout)
@@ -75,7 +71,7 @@ fn main() -> std::io::Result<()> {
 
                     match process {
                         Ok(mut process) => {
-                            process.wait();
+                            process.wait().expect("Failed to wait on child process");
                             previous_command = Some(process);
                         },
                         Err(e) => {
@@ -90,17 +86,4 @@ fn main() -> std::io::Result<()> {
     }
     Ok(())
 }
-
-
-
-
-// Exercice 8 : simple pipe
-fn ex_8_pipe() {
-    println!("Ex Pipe : ls | cat (prints ls vertically)");
-    let cmd = Command::new("ls").stdout(Stdio::piped()).spawn().expect("ls failed to execute");
-    let stdout = Stdio::from(cmd.stdout.expect("Failed"));
-    let mut process = Command::new("cat").stdin(stdout).spawn().expect("Piped command failed to execute");
-    process.wait();
-}
-
 
