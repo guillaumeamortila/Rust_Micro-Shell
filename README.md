@@ -85,7 +85,7 @@ Notre repo : https://github.com/guillaumeamortila/Rust_Micro-Shell
 ```rust
 pub Struct Processus {
 	pid: usize,
-	statut: enum,
+	status: enum,
 	child: Vec<Processus>,
 	parent: Vec<Processus>
 }
@@ -93,10 +93,14 @@ pub Struct Processus {
 
 
 
-Merci pour votre lecture.
 
-Pour information, nous nous sommes inspiré de l'exemple de ce site https://www.joshmcguigan.com/blog/build-your-own-shell-rust/ pour construire le pipe.
+**Merci pour votre lecture.**
+
+
+Pour information, nous nous sommes inspiré de l'exemple de ce site https://www.joshmcguigan.com/blog/build-your-own-shell-rust/ pour construire le pipe. Ce fut simplement une béquille, (presque) pas de copier-coller, du moins aucun que nous n'avions pas compris au préalable.
+
 
 Bon courage pour les corrections !
+
 Alexis LIBERGE, Guillaume AMORTILA
 4IABD 2 - Groupe 13 (MyGES)
